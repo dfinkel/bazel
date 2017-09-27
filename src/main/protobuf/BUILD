@@ -63,6 +63,13 @@ java_library_srcs(
     deps = [":analysis_java_proto"],
 )
 
+[py_proto_library(
+    name = s + "_pb_py",
+    srcs = [s + ".proto"],
+    default_runtime = "//third_party/protobuf:protobuf_python",
+    protoc = "//third_party/protobuf:protoc",
+) for s in FILES]
+
 # This new option tagging method is in flux while being applied to the options
 # in the Bazel code base. The visibility should not be changed to allow external
 # dependencies until the interface has stabilized and can commit to maintaining
@@ -124,13 +131,6 @@ java_grpc_library(
 cc_grpc_library(
     name = "command_server_cc_proto",
     src = "command_server.proto",
-)
-
-py_proto_library(
-    name = "build_pb_py",
-    srcs = ["build.proto"],
-    default_runtime = "//third_party/protobuf:protobuf_python",
-    protoc = "//third_party/protobuf:protoc",
 )
 
 java_library_srcs(
